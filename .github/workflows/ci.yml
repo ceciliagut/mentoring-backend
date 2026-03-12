@@ -26,6 +26,9 @@ jobs:
       - name: Compile
         run: ./gradlew classes testClasses integrationTestClasses
 
+      - name: Lint
+        run: ./gradlew ktlintCheck
+
       - name: Unit tests and architecture tests
         run: ./gradlew test
 

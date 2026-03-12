@@ -4,6 +4,7 @@ plugins {
     id("org.springframework.boot") version "4.0.3"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jetbrains.kotlinx.kover") version "0.8.3"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
 }
 
 group = "com.n26.mentoring"
@@ -19,12 +20,13 @@ repositories {
     mavenCentral()
 }
 
-val integrationTest: SourceSet = sourceSets.create("integrationTest") {
-    kotlin.srcDir("src/integrationTest/kotlin")
-    resources.srcDir("src/integrationTest/resources")
-    compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
-    runtimeClasspath += sourceSets.main.get().output + sourceSets.test.get().output
-}
+val integrationTest: SourceSet =
+    sourceSets.create("integrationTest") {
+        kotlin.srcDir("src/integrationTest/kotlin")
+        resources.srcDir("src/integrationTest/resources")
+        compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+        runtimeClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+    }
 
 val integrationTestImplementation: Configuration by configurations.getting {
     extendsFrom(configurations.testImplementation.get())
@@ -67,6 +69,25 @@ tasks.register<Test>("integrationTest") {
 
 tasks.check {
     dependsOn(tasks.named("integrationTest"))
+}
+
+// Installs git hooks automatically on first build
+tasks.register("installGitHooks") {
+    description = "Installs git hooks from .githooks/"
+    group = "setup"
+    doLast {
+        providers.exec {
+            commandLine("git", "config", "core.hooksPath", ".githooks")
+        }
+    }
+}
+
+tasks.named("build") {
+    dependsOn("installGitHooks")
+}
+
+ktlint {
+    version = "1.5.0"
 }
 
 kover {

@@ -9,14 +9,14 @@ import org.testcontainers.junit.jupiter.Testcontainers
 @Testcontainers
 @SpringBootTest
 class ApplicationSmokeIT {
-
     companion object {
         @Container
-        val postgres = PostgreSQLContainer<Nothing>("postgres:16-alpine").apply {
-            withDatabaseName("mentoring")
-            withUsername("mentoring")
-            withPassword("mentoring")
-        }
+        val postgres =
+            PostgreSQLContainer<Nothing>("postgres:16-alpine").apply {
+                withDatabaseName("mentoring")
+                withUsername("mentoring")
+                withPassword("mentoring")
+            }
     }
 
     @Test

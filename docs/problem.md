@@ -32,7 +32,6 @@ Authentication, notifications, payment, calendar integrations, and frontend conc
 
 ## Starting point
 
-Start by modelling the domain.
-Focus first on the business concepts, behaviours, and rules.
-Do not start with Spring.
-Do not start with a database.
+Start by thinking about the concepts: what is a booking, what data does it carry, what can happen to it, and what rules must always hold.
+
+Write Kotlin classes. No framework annotations, no database, no HTTP — just the business logic.
