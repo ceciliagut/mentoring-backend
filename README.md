@@ -10,10 +10,10 @@ Read the [problem statement](docs/problem.md) first.
 
 | Technology | Version |
 |---|---|
-| Kotlin | 1.9.25 |
-| Spring Boot | 3.3.4 |
+| Kotlin | 2.2.21 |
+| Spring Boot | 4.0.3 |
 | Java | 21 |
-| Gradle (Kotlin DSL) | 8.10.2 |
+| Gradle (Kotlin DSL) | 9.4.0 |
 
 ---
 

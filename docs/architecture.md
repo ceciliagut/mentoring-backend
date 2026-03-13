@@ -13,8 +13,7 @@ com.n26.mentoring/
 │   └── usecase/     # Use cases
 └── infrastructure/
     ├── persistence/ # Repository implementations
-    ├── rest/        # REST controllers and DTOs
-    └── config/      # Spring configuration
+    └── rest/        # REST controllers and DTOs
 ```
 
 ## Rules

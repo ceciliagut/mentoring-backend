@@ -8,7 +8,7 @@ Read the [problem statement](../problem.md) before this session. Come ready to d
 
 ## Goal
 
-Understand the problem, the ubiquitous language, and why we start from the domain — not from Spring.
+Understand the problem, the ubiquitous language, and why we start by modelling the domain concepts before writing any code.
 
 ---
 
@@ -35,7 +35,7 @@ Understand the problem, the ubiquitous language, and why we start from the domai
 
 - Initial domain model sketched on paper or a whiteboard
 - State diagram for the booking lifecycle
-- First domain classes written by hand (no Spring, no framework)
+- First domain classes written in Kotlin
 
 ---
 

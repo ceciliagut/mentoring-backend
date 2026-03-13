@@ -28,7 +28,7 @@ Test domain logic, use case behaviour, and architecture rules.
 
 ## Integration tests
 
-Start a real Spring context and a real Postgres container via Testcontainers.
+Start a real Spring context and real Docker containers via Testcontainers.
 
 Validate end-to-end HTTP behaviour and repository adapters.
 
