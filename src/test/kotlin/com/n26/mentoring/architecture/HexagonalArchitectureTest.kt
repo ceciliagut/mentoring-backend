@@ -1,4 +1,4 @@
-package com.n26.mentoring
+package com.n26.mentoring.architecture
 
 import com.tngtech.archunit.core.importer.ClassFileImporter
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses
