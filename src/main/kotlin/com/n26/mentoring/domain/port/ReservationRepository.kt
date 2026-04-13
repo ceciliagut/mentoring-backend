@@ -5,5 +5,6 @@ import java.util.UUID
 
 interface ReservationRepository {
     fun save(booking: Booking): Booking
+    fun update(booking: Booking): Booking
     fun findById(id: UUID): Booking?
 }
