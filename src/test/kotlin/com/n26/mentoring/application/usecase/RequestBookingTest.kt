@@ -6,6 +6,7 @@ import com.n26.mentoring.domain.model.TimeSlot
 import com.n26.mentoring.domain.port.ReservationRepository
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.assertThrows
 import org.mockito.kotlin.any
 import org.mockito.kotlin.mock
 import org.mockito.kotlin.whenever
@@ -31,5 +32,19 @@ class RequestBookingTest {
         val booking = requestBooking.execute(mentorId, menteeId, timeSlot)
 
         assertEquals(BookingStatus.REQUESTED, booking.status)
+    }
+
+    @Test
+    fun `booking request is rejected when mentor has an overlapping booking`() {
+        val overlappingSlot = TimeSlot(
+            start = Instant.parse("2026-05-01T10:30:00Z"),
+            end = Instant.parse("2026-05-01T11:30:00Z"),
+        )
+        val existingBooking = Booking(mentorId = mentorId, menteeId = UUID.randomUUID(), timeSlot = timeSlot)
+        whenever(repository.findByMentorId(mentorId)).thenReturn(listOf(existingBooking))
+
+        assertThrows<BookingConflictException> {
+            requestBooking.execute(mentorId, menteeId, overlappingSlot)
+        }
     }
 }
