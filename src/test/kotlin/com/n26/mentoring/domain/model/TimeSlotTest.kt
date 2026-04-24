@@ -10,7 +10,7 @@ class TimeSlotTest {
 
     @Test
     fun `time slot requires end to be after start`() {
-        assertThrows<IllegalArgumentException> {
+        assertThrows<InvalidTimeSlotException> {
             TimeSlot(
                 start = Instant.parse("2026-05-01T11:00:00Z"),
                 end = Instant.parse("2026-05-01T10:00:00Z"),
@@ -21,7 +21,7 @@ class TimeSlotTest {
     @Test
     fun `time slot with equal start and end is invalid`() {
         val time = Instant.parse("2026-05-01T10:00:00Z")
-        assertThrows<IllegalArgumentException> {
+        assertThrows<InvalidTimeSlotException> {
             TimeSlot(start = time, end = time)
         }
     }
