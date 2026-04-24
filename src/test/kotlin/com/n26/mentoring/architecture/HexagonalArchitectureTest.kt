@@ -1,29 +1,27 @@
 package com.n26.mentoring.architecture
 
 import com.tngtech.archunit.core.importer.ClassFileImporter
+import com.tngtech.archunit.core.importer.ImportOption
 import com.tngtech.archunit.lang.syntax.ArchRuleDefinition.noClasses
 import com.tngtech.archunit.library.Architectures.layeredArchitecture
 import org.junit.jupiter.api.Test
 
 class HexagonalArchitectureTest {
-    private val classes = ClassFileImporter().importPackages("com.n26.mentoring")
+    private val classes =
+        ClassFileImporter()
+            .withImportOption(ImportOption.DoNotIncludeTests())
+            .importPackages("com.n26.mentoring")
 
     @Test
     fun `layers respect hexagonal dependency direction`() {
         layeredArchitecture()
-            .consideringAllDependencies()
-            .optionalLayer("Domain")
-            .definedBy("com.n26.mentoring.domain..")
-            .optionalLayer("Application")
-            .definedBy("com.n26.mentoring.application..")
-            .optionalLayer("Infrastructure")
-            .definedBy("com.n26.mentoring.infrastructure..")
-            .whereLayer("Domain")
-            .mayNotAccessAnyLayer()
-            .whereLayer("Application")
-            .mayOnlyAccessLayers("Domain")
-            .whereLayer("Infrastructure")
-            .mayOnlyAccessLayers("Application", "Domain")
+            .consideringOnlyDependenciesInLayers()
+            .layer("Domain").definedBy("com.n26.mentoring.domain..")
+            .layer("Application").definedBy("com.n26.mentoring.application..")
+            .layer("Infrastructure").definedBy("com.n26.mentoring.infrastructure..")
+            .whereLayer("Domain").mayNotAccessAnyLayer()
+            .whereLayer("Application").mayOnlyAccessLayers("Domain")
+            .whereLayer("Infrastructure").mayOnlyAccessLayers("Application", "Domain")
             .check(classes)
     }
 
