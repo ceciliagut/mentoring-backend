@@ -48,4 +48,19 @@ class RequestBookingTest {
             requestBooking.execute(mentorId, menteeId, overlappingSlot)
         }
     }
+
+    @Test
+    fun `booking request is accepted when mentor has a back-to-back booking`() {
+        val adjacentSlot = TimeSlot(
+            start = Instant.parse("2026-05-01T11:00:00Z"),
+            end = Instant.parse("2026-05-01T12:00:00Z"),
+        )
+        val existingBooking = Booking(mentorId = mentorId, menteeId = UUID.randomUUID(), timeSlot = timeSlot)
+        whenever(repository.findByMentorId(mentorId)).thenReturn(listOf(existingBooking))
+        whenever(repository.save(any())).thenAnswer { it.arguments[0] }
+
+        val booking = requestBooking.execute(mentorId, menteeId, adjacentSlot)
+
+        assertEquals(BookingStatus.REQUESTED, booking.status)
+    }
 }
