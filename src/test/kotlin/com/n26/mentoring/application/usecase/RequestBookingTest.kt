@@ -1,6 +1,7 @@
 package com.n26.mentoring.application.usecase
 
 import com.n26.mentoring.domain.model.Booking
+import com.n26.mentoring.domain.model.BookingConflictException
 import com.n26.mentoring.domain.model.BookingStatus
 import com.n26.mentoring.domain.model.TimeSlot
 import com.n26.mentoring.domain.port.ReservationRepository

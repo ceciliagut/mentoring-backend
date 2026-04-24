@@ -21,4 +21,7 @@ class InMemoryReservationRepository : ReservationRepository {
     }
 
     override fun findById(id: UUID): Booking? = store[id]
+
+    override fun findByMentorId(mentorId: UUID): List<Booking> =
+        store.values.filter { it.mentorId == mentorId }
 }
