@@ -4,7 +4,7 @@ import java.time.Instant
 
 data class TimeSlot(val start: Instant, val end: Instant) {
     init {
-        require(end > start) { "End time must be after start time" }
+        if (end <= start) throw InvalidTimeSlotException("End time must be after start time")
     }
 
     fun overlapsWith(other: TimeSlot): Boolean =

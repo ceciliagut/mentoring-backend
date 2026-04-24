@@ -1,6 +1,7 @@
 package com.n26.mentoring.domain.model
 
 import org.junit.jupiter.api.Test
+import com.n26.mentoring.domain.model.InvalidTimeSlotException
 import org.junit.jupiter.api.assertThrows
 import org.junit.jupiter.api.Assertions.assertFalse
 import org.junit.jupiter.api.Assertions.assertTrue
