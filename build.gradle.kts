@@ -43,6 +43,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.4.0")
     testImplementation("com.tngtech.archunit:archunit-junit5:1.3.0")
 
     integrationTestImplementation("org.springframework.boot:spring-boot-starter-test") {
