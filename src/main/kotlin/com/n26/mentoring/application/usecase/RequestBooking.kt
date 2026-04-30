@@ -7,24 +7,30 @@ import com.n26.mentoring.domain.model.TimeSlot
 import com.n26.mentoring.domain.port.ReservationRepository
 import java.util.UUID
 
-class RequestBooking(private val repository: ReservationRepository) {
-
+class RequestBooking(
+    private val repository: ReservationRepository,
+) {
     fun execute(
         mentorId: UUID,
         menteeId: UUID,
         timeSlot: TimeSlot,
     ): Booking {
-        val hasConflict = repository.findByMentorId(mentorId)
-            .any { it.timeSlot.overlapsWith(timeSlot) }
+        val hasConflict =
+            repository
+                .findByMentorId(mentorId)
+                .any { it.timeSlot.overlapsWith(timeSlot) }
 
-        if (hasConflict) throw BookingConflictException("Mentor already has a booking that overlaps with the requested time slot")
+        if (hasConflict) {
+            throw BookingConflictException("Mentor already has a booking that overlaps with the requested time slot")
+        }
 
-        val booking = Booking(
-            mentorId = mentorId,
-            menteeId = menteeId,
-            timeSlot = timeSlot,
-            status = BookingStatus.REQUESTED,
-        )
+        val booking =
+            Booking(
+                mentorId = mentorId,
+                menteeId = menteeId,
+                timeSlot = timeSlot,
+                status = BookingStatus.REQUESTED,
+            )
         return repository.save(booking)
     }
 }
