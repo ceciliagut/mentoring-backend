@@ -13,7 +13,9 @@ import java.time.ZoneOffset
 import java.util.UUID
 
 @Repository
-class PostgresReservationRepository(private val jdbc: JdbcTemplate) : ReservationRepository {
+class PostgresReservationRepository(
+    private val jdbc: JdbcTemplate,
+) : ReservationRepository {
     override fun save(booking: Booking): Booking {
         jdbc.update(
             "INSERT INTO bookings (id, status, slot_start, slot_end, mentor_id, mentee_id) VALUES (?, ?, ?, ?, ?, ?)",
@@ -52,7 +54,10 @@ class PostgresReservationRepository(private val jdbc: JdbcTemplate) : Reservatio
 
     private fun Instant.toOffsetDateTime(): OffsetDateTime = OffsetDateTime.ofInstant(this, ZoneOffset.UTC)
 
-    private fun toBooking(rs: ResultSet, @Suppress("UNUSED_PARAMETER") rowNum: Int): Booking =
+    private fun toBooking(
+        rs: ResultSet,
+        @Suppress("UNUSED_PARAMETER") rowNum: Int,
+    ): Booking =
         Booking(
             id = rs.getObject("id", UUID::class.java),
             status = BookingStatus.valueOf(rs.getString("status")),
