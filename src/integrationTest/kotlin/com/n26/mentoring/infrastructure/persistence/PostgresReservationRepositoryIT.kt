@@ -1,53 +1,23 @@
 package com.n26.mentoring.infrastructure.persistence
 
+import com.n26.mentoring.PostgresTestContainer
 import com.n26.mentoring.domain.model.Booking
 import com.n26.mentoring.domain.model.BookingStatus
 import com.n26.mentoring.domain.model.TimeSlot
 import org.assertj.core.api.Assertions.assertThat
-import org.flywaydb.core.Flyway
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
-import org.postgresql.ds.PGSimpleDataSource
 import org.springframework.jdbc.core.JdbcTemplate
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
 import java.time.Instant
 import java.util.UUID
 
-@Testcontainers
 class PostgresReservationRepositoryIT {
-    companion object {
-        @Container
-        val postgres =
-            PostgreSQLContainer<Nothing>("postgres:16-alpine").apply {
-                withDatabaseName("mentoring")
-                withUsername("mentoring")
-                withPassword("mentoring")
-            }
-    }
-
     private lateinit var repository: PostgresReservationRepository
 
     @BeforeEach
     fun setUp() {
-        val dataSource =
-            PGSimpleDataSource().apply {
-                setURL(postgres.jdbcUrl)
-                user = postgres.username
-                password = postgres.password
-            }
-
-        Flyway.configure()
-            .dataSource(dataSource)
-            .cleanDisabled(false)
-            .load()
-            .also {
-                it.clean()
-                it.migrate()
-            }
-
-        repository = PostgresReservationRepository(JdbcTemplate(dataSource))
+        PostgresTestContainer.migrateClean()
+        repository = PostgresReservationRepository(JdbcTemplate(PostgresTestContainer.dataSource()))
     }
 
     @Test
