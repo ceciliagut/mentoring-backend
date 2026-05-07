@@ -9,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.jdbc.core.JdbcTemplate
 import java.time.Instant
+import java.time.temporal.ChronoUnit
 import java.util.UUID
 
 class PostgresReservationRepositoryIT {
@@ -64,7 +65,7 @@ class PostgresReservationRepositoryIT {
     }
 
     private fun aBooking(mentorId: UUID = UUID.randomUUID()): Booking {
-        val now = Instant.now()
+        val now = Instant.now().truncatedTo(ChronoUnit.MICROS)
         return Booking(
             id = UUID.randomUUID(),
             status = BookingStatus.PENDING,
