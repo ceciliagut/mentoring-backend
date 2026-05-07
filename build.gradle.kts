@@ -77,14 +77,10 @@ tasks.check {
 }
 
 // Installs git hooks automatically on first build
-tasks.register("installGitHooks") {
+tasks.register<Exec>("installGitHooks") {
     description = "Installs git hooks from .githooks/"
     group = "setup"
-    doLast {
-        providers.exec {
-            commandLine("git", "config", "core.hooksPath", ".githooks")
-        }
-    }
+    commandLine("git", "config", "core.hooksPath", ".githooks")
 }
 
 tasks.named("build") {
