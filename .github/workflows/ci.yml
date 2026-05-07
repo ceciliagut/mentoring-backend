@@ -31,7 +31,7 @@ jobs:
         run: ./gradlew classes testClasses integrationTestClasses
 
       - name: Lint
-        run: ./gradlew ktlintCheck
+        run: ./gradlew lintKotlin
 
       - name: Unit tests and architecture tests
         run: ./gradlew test
