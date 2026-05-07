@@ -24,7 +24,8 @@ object PostgresTestContainer {
         }
 
     fun migrateClean() {
-        Flyway.configure()
+        Flyway
+            .configure()
             .dataSource(dataSource())
             .cleanDisabled(false)
             .load()
