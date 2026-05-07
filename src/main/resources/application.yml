@@ -1,6 +1,10 @@
 spring:
   application:
     name: mentoring-backend
+  datasource:
+    url: jdbc:postgresql://localhost:5432/mentoring
+    username: mentoring
+    password: mentoring
 
 server:
   port: 8080

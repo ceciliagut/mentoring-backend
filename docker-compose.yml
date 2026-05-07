@@ -1,0 +1,9 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: mentoring
+      POSTGRES_USER: mentoring
+      POSTGRES_PASSWORD: mentoring
+    ports:
+      - "5432:5432"

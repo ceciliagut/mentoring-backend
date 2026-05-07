@@ -17,6 +17,22 @@ Read the [problem statement](docs/problem.md) first.
 
 ---
 
+## Local setup
+
+After cloning, run this once to enable the pre-commit hook that auto-formats code on every commit:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+To format manually at any time:
+
+```bash
+./gradlew formatKotlin
+```
+
+---
+
 ## Run
 
 ```bash

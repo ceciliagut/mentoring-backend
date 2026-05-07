@@ -2,21 +2,20 @@ package com.n26.mentoring
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.junit.jupiter.Container
-import org.testcontainers.junit.jupiter.Testcontainers
+import org.springframework.test.context.DynamicPropertyRegistry
+import org.springframework.test.context.DynamicPropertySource
 
-@Testcontainers
 @SpringBootTest
 class ApplicationSmokeIT {
     companion object {
-        @Container
-        val postgres =
-            PostgreSQLContainer<Nothing>("postgres:16-alpine").apply {
-                withDatabaseName("mentoring")
-                withUsername("mentoring")
-                withPassword("mentoring")
-            }
+        @JvmStatic
+        @DynamicPropertySource
+        fun datasourceProperties(registry: DynamicPropertyRegistry) {
+            val container = PostgresTestContainer.container
+            registry.add("spring.datasource.url") { container.jdbcUrl }
+            registry.add("spring.datasource.username") { container.username }
+            registry.add("spring.datasource.password") { container.password }
+        }
     }
 
     @Test

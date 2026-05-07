@@ -4,7 +4,7 @@ plugins {
     id("org.springframework.boot") version "4.0.3"
     id("io.spring.dependency-management") version "1.1.7"
     id("org.jetbrains.kotlinx.kover") version "0.8.3"
-    id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
+    id("org.jmailen.kotlinter") version "5.4.2"
 }
 
 group = "com.n26.mentoring"
@@ -37,8 +37,12 @@ val integrationTestRuntimeOnly: Configuration by configurations.getting {
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation("org.flywaydb:flyway-core")
+    implementation("org.flywaydb:flyway-database-postgresql")
+    runtimeOnly("org.postgresql:postgresql")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
@@ -72,24 +76,6 @@ tasks.check {
     dependsOn(tasks.named("integrationTest"))
 }
 
-// Installs git hooks automatically on first build
-tasks.register("installGitHooks") {
-    description = "Installs git hooks from .githooks/"
-    group = "setup"
-    doLast {
-        providers.exec {
-            commandLine("git", "config", "core.hooksPath", ".githooks")
-        }
-    }
-}
-
-tasks.named("build") {
-    dependsOn("installGitHooks")
-}
-
-ktlint {
-    version = "1.5.0"
-}
 
 kover {
     reports {
